@@ -3,6 +3,7 @@ import { TextField, TextareaAutosize, Paper, Button, Typography, Grid } from '@m
 import { styled } from '@mui/system';
 import Encoded from './Encoded';
 import Decoded from './Decoded';
+import Navbar from './Navbar';
 
 const StyledPaper = styled(Paper)({
   padding: '20px',
@@ -60,6 +61,8 @@ function App() {
   };
 
   return (
+    <>
+    <Navbar />
     <Grid container spacing={2}>
       <Grid item xs={12} md={6}>
         <StyledPaper elevation={3}>
@@ -75,6 +78,7 @@ function App() {
         </StyledPaper>
       </Grid>
     </Grid>
+    </>
   );
 }
 
