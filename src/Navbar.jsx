@@ -10,11 +10,11 @@ export default function Navbar() {
                     JSON Web Tokens
                 </Typography>
                 <Typography variant="h6">
-                    JSON Web Tokens are an open, industry standard <strong>RFC 7519</strong> method for representing
+                    JSON Web Tokens are an open, industry standard <strong><a href="https://tools.ietf.org/html/rfc7519" target="_blank" rel="noopener noreferrer">RFC 7519</a></strong> method for representing
                     claims securely between two parties.
                 </Typography>
                 <Typography variant="subtitle1" gutterBottom>
-                    JWT.IO allows you to decode, verify and generate JWT.
+                    JWT playground allows you to decode, verify and generate JWT.
                 </Typography>
                 <Box sx={{ mt: 4 }}>
                     <Button variant="contained" color="primary" sx={{ mr: 2 }}>
