@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { TextField, TextareaAutosize, Paper, Button, Typography, Grid } from '@mui/material';
+import { styled } from '@mui/system';
 import Encoded from './Encoded';
 import Decoded from './Decoded';
 
@@ -18,10 +20,14 @@ function App() {
   };
 
   return (
-    <div>
-      <Encoded jwt={jwt} handleJwtChange={handleJwtChange} />
-      <Decoded decodedHeader={decodedHeader} decodedPayload={decodedPayload} />
-    </div>
+    <Grid container spacing={2}>
+      <Grid item xs={12} md={6}>
+        <Encoded jwt={jwt} handleJwtChange={handleJwtChange} />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <Decoded decodedHeader={decodedHeader} decodedPayload={decodedPayload} />
+      </Grid>
+    </Grid>
   );
 }
 
