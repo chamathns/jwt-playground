@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, TextareaAutosize, Paper, Button, Typography, Grid } from '@mui/material';
+import { TextField, TextareaAutosize, Paper, Divider, Button, Typography, Grid, CssBaseline } from '@mui/material';
 import { styled } from '@mui/system';
 import Encoded from './Encoded';
 import Decoded from './Decoded';
@@ -62,7 +62,11 @@ function App() {
 
   return (
     <>
-    <Navbar />
+    <div style={{ background: 'linear-gradient(to right, #C33764, #1D2671)', width: '100vw' }}>
+            <CssBaseline />
+            <Navbar />
+    </div>
+    <Divider sx={{ my: 2 }} />
     <Grid container spacing={2}>
       <Grid item xs={12} md={6}>
         <StyledPaper elevation={3}>
