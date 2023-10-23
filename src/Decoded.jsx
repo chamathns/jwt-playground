@@ -7,8 +7,8 @@ function Decoded({ decodedHeader, decodedPayload }) {
 
     return (
         <Paper elevation={3} style={{ padding: '20px' }}>
-            <Typography variant="h4" gutterBottom>Decoded</Typography>
-            <Divider style={{ margin: '10px 0' }} />
+            {/* <Typography variant="h4" gutterBottom>Decoded</Typography> */}
+            {/* <Divider style={{ margin: '10px 0' }} /> */}
 
             {/* HEADER */}
             <Paper style={{ marginBottom: '16px', padding: '10px' }}>
