@@ -47,7 +47,16 @@ function App() {
     if (parts.length === 3) {
       setDecodedHeader(atob(parts[0]));
       setDecodedPayload(atob(parts[1]));
+    } else {
+      setDecodedHeader("");
+      setDecodedPayload("");
     }
+  };
+
+  const handleClearClick = () => {
+    setJwt("");
+    setDecodedHeader("");
+    setDecodedPayload("");
   };
 
   return (
@@ -56,13 +65,12 @@ function App() {
         <StyledPaper elevation={3}>
         <Typography variant="h4" gutterBottom>Encoded</Typography>
           <Encoded jwt={jwt} handleJwtChange={handleJwtChange} />
-          <StyledButton variant="contained" onClick={() => setJwt("")}>Clear</StyledButton>
+          <StyledButton variant="contained" onClick={handleClearClick}>Clear</StyledButton>
         </StyledPaper>
       </Grid>
       <Grid item xs={12} md={6}>
         <StyledPaper elevation={3}>
-          <Typography variant="h4" gutterBottom>Decoded</Typography>
-          {/* <Typography variant="subtitle1">EDIT THE PAYLOAD AND SECRET</Typography> */}
+        <Typography variant="h4" gutterBottom>Decoded</Typography>
           <Decoded decodedHeader={decodedHeader} decodedPayload={decodedPayload} />
         </StyledPaper>
       </Grid>
