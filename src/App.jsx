@@ -62,7 +62,7 @@ function App() {
 
   return (
     <>
-    <div style={{ background: 'linear-gradient(to right, #C33764, #1D2671)', width: '100vw' }}>
+    <div style={{ background: 'linear-gradient(to right, #0f0c29, #302b63, #24243e)', width: '100vw' }}>
             <CssBaseline />
             <Navbar />
     </div>

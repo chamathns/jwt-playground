@@ -26,9 +26,9 @@ export default function Navbar() {
                     </Button>
                 </Box>
                 <Box sx={{ mt: 4, background: 'transparent', alignItems: 'center' }}>
-                    <Paper elevation={0} variant="outlined" sx={{ p: 2, background: 'linear-gradient(to right, #D3CCE3, #E9E4F0)', display: 'flex', alignItems: 'center', width: '100%' }}>
-                        <Warning color="error" />
-                        <Typography variant="body2" sx={{ ml: 2, textAlign: 'center', fontFamily: 'Helvetica Neue' }}>
+                    <Paper elevation={0} variant="outlined" sx={{ p: 2, background: 'transparent', alignItems: 'center', width: '100%' }}>
+                        <Typography variant="body2" sx={{ ml: 2, textAlign: 'center', fontFamily: 'Helvetica Neue', color: 'wheat' }}>
+                            <Warning color="warning" sx={{mr: 1, verticalAlign: 'bottom'}} />
                             Warning: JWTs are credentials, which can grant access to resources. Be careful where you
                             paste them! We do not record tokens, all validation and debugging is done on the client
                             side.
