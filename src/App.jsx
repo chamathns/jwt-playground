@@ -29,6 +29,14 @@ function App() {
     setDecodedPayload("");
   };
 
+  const handleHeaderChange = (event) => {
+    setDecodedHeader(event.target.value);
+  };
+
+  const handlePayloadChange = (event) => {
+    setDecodedPayload(event.target.value);
+  };
+
   return (
     <>
     <BackgroundDiv>
@@ -47,7 +55,12 @@ function App() {
       <Grid item xs={12} md={6}>
         <StyledPaper elevation={3}>
         <Typography variant="h4" gutterBottom>Decoded</Typography>
-          <Decoded decodedHeader={decodedHeader} decodedPayload={decodedPayload} />
+        <Decoded 
+          decodedHeader={decodedHeader} 
+          decodedPayload={decodedPayload} 
+          handleHeaderChange={handleHeaderChange} 
+          handlePayloadChange={handlePayloadChange} 
+        />
         </StyledPaper>
       </Grid>
     </Grid>
