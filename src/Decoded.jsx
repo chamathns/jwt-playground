@@ -1,9 +1,16 @@
 import React from 'react';
-import { Typography, Button, FormControlLabel, Checkbox } from '@mui/material';
-import { StyledPaper, StyledTextarea, StyledContainer, StyledButtonContainer } from './AppStyles';
+import { Typography, FormControlLabel, Checkbox } from '@mui/material';
+import { StyledPaper, StyledTextarea, StyledContainer } from './AppStyles';
+
+const JSONTextarea = ({ value, onChange }) => (
+  <StyledTextarea
+    minRows={3}
+    value={JSON.stringify(value, null, 2)}
+    onChange={onChange}
+  />
+);
 
 function Decoded({
-    jwt,
     decodedHeader,
     decodedPayload,
     handleHeaderChange,
@@ -20,52 +27,46 @@ function Decoded({
         <StyledPaper elevation={3}>
             <StyledContainer>
                 <Typography variant="h6">HEADER: ALGORITHM & TOKEN TYPE</Typography>
-                <StyledTextarea
-                    minRows={3}
-                    value={JSON.stringify(parsedHeader, null, 2)}
-                    onChange={handleHeaderChange}
-                />
+                <JSONTextarea value={parsedHeader} onChange={handleHeaderChange} />
             </StyledContainer>
 
             <StyledContainer>
                 <Typography variant="h6">PAYLOAD: DATA</Typography>
-                <StyledTextarea
-                    minRows={3}
-                    value={JSON.stringify(parsedPayload, null, 2)}
-                    onChange={handlePayloadChange}
-                />
+                <JSONTextarea value={parsedPayload} onChange={handlePayloadChange} />
             </StyledContainer>
 
             <StyledContainer>
-                <Typography variant="h6">VERIFY SIGNATURE</Typography>
+                <Typography variant="h6" style={{ marginBottom: '10px' }}>VERIFY SIGNATURE</Typography>
                 <Typography component="div" gutterBottom>
                     HMACSHA256(
                 </Typography>
-                <Typography component="div" gutterBottom>
-                    {"  "}base64UrlEncode(header) + "." +
+                <Typography component="div" gutterBottom style={{ marginLeft: '20px' }}>
+                    base64UrlEncode(header) + "."
                 </Typography>
-                <Typography component="div" gutterBottom>
-                    {"  "}base64UrlEncode(payload),
+                <Typography component="div" gutterBottom style={{ marginLeft: '20px' }}>
+                    base64UrlEncode(payload),
                 </Typography>
                 <StyledTextarea
                     minRows={1}
                     placeholder="your-256-bit-secret"
                     value={secretKey}
                     onChange={handleSecretKeyChange}
+                    style={{ marginLeft: '20px', width: '50%' }}
                 />
                 <Typography component="div" gutterBottom>
-                    {"  "})
+                    )
                 </Typography>
-                {/* <FormControlLabel
-                    control={
-                        <Checkbox
-                            checked={isBase64Encoded}
-                            onChange={handleToggleBase64}
-                        />
-                    }
-                    label="secret base64 encoded"
-                /> */}
             </StyledContainer>
+
+            {/* <FormControlLabel
+                control={
+                    <Checkbox
+                        checked={isBase64Encoded}
+                        onChange={handleToggleBase64}
+                    />
+                }
+                label="secret base64 encoded"
+            /> */}
         </StyledPaper>
     );
 }

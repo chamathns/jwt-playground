@@ -3,9 +3,9 @@ import { Divider, Typography, Grid, CssBaseline } from '@mui/material';
 import Encoded from './Encoded';
 import Decoded from './Decoded';
 import Navbar from './Navbar';
-import { StyledPaper, StyledButton, BackgroundDiv } from './AppStyles';
-import { KJUR } from 'jsrsasign';
 import AlgorithmSelect from './AlgorithmSelect';
+import { BackgroundDiv, StyledPaper, StyledButton } from './AppStyles';
+import { KJUR } from 'jsrsasign';
 
 function App() {
   const [jwt, setJwt] = useState("");
@@ -16,49 +16,49 @@ function App() {
   const [isBase64Encoded, setIsBase64Encoded] = useState(false);
   const [isSignatureValid, setIsSignatureValid] = useState(false);
 
-  const handleJwtChange = (event) => {
-
-    const newJwt = event.target.value;
-    setJwt(newJwt);
-
-    const parts = newJwt.split('.');
-    if (parts.length === 3) {
-      const decodedHeader = atob(parts[0]);
-      const decodedPayload = atob(parts[1]);
-      setDecodedHeader(decodedHeader);
-      setDecodedPayload(decodedPayload);
-
-      const isValid = KJUR.jws.JWS.verify(newJwt, secretKey, [algorithm]);
-      setIsSignatureValid(isValid);
-    }
-  };
-
   useEffect(() => {
-    handleJwtChange({ target: { value: jwt } });
+    verifyAndSetJwt(jwt);
   }, [jwt]);
 
   useEffect(() => {
-    if (decodedHeader && decodedPayload) {
-      const newJwt = KJUR.jws.JWS.sign(
-        algorithm,
-        JSON.parse(decodedHeader),
-        JSON.parse(decodedPayload),
-        secretKey
-      );
-      setJwt(newJwt);
-    }
-  }, [secretKey]);
+    signAndSetJwt(decodedHeader, decodedPayload);
+  }, [decodedHeader, decodedPayload, secretKey]);
 
-  const handleSecretKeyChange = (event) => {
-    setSecretKey(event.target.value);
-  };
-
-  const handleToggleBase64 = () => {
-    setIsBase64Encoded(!isBase64Encoded);
+  const handleJwtChange = (event) => {
+    const newJwt = event.target.value;
+    verifyAndSetJwt(newJwt);
   };
 
   const handleAlgorithmChange = (event) => {
     setAlgorithm(event.target.value);
+  };
+
+  const verifyAndSetJwt = (newJwt) => {
+    setJwt(newJwt);
+    const parts = newJwt.split('.');
+    if (parts.length === 3) {
+      setDecodedHeader(atob(parts[0]));
+      setDecodedPayload(atob(parts[1]));
+      setIsSignatureValid(KJUR.jws.JWS.verify(newJwt, secretKey, [algorithm]));
+    }
+  };
+
+  const signAndSetJwt = (header, payload) => {
+    if (header && payload) {
+      try {
+        const newJwt = KJUR.jws.JWS.sign(
+          algorithm,
+          JSON.parse(header),
+          JSON.parse(payload),
+          secretKey
+        );
+        setJwt(newJwt);
+      } catch (error) {
+        console.error('Error signing JWT', error);
+        setJwt(error);
+        setIsSignatureValid(false);
+      }
+    }
   };
 
   const handleClearClick = () => {
@@ -68,48 +68,22 @@ function App() {
     setIsSignatureValid(false);
   };
 
-  const handleHeaderChange = (event) => {
-    const newHeader = event.target.value;
-    setDecodedHeader(newHeader);
-  
-    const newJwt = KJUR.jws.JWS.sign(
-      algorithm,
-      JSON.parse(newHeader),
-      JSON.parse(decodedPayload),
-      secretKey
-    );
-    setJwt(newJwt);
-  };
-
-  const handlePayloadChange = (event) => {
-    const newPayload = event.target.value;
-    setDecodedPayload(newPayload);
-  
-    const newJwt = KJUR.jws.JWS.sign(
-      algorithm,
-      JSON.parse(decodedHeader),
-      JSON.parse(newPayload),
-      secretKey
-    );
-    setJwt(newJwt);
-  };
-
   return (
     <>
-    <BackgroundDiv>
-      <CssBaseline />
-      <Navbar />
-    </BackgroundDiv>
-    <AlgorithmSelect algorithm={algorithm} handleAlgorithmChange={handleAlgorithmChange} />
-    <Divider sx={{ my: 2 }} />
-    <Grid container spacing={2}>
-      <Grid item xs={12} md={6}>
-        <StyledPaper elevation={3}>
-        <Typography variant="h4" gutterBottom>Encoded</Typography>
-          <Encoded jwt={jwt} handleJwtChange={handleJwtChange} />
-          <StyledButton variant="contained" onClick={handleClearClick}>Clear</StyledButton>
-        </StyledPaper>
-        {jwt && (
+      <BackgroundDiv>
+        <CssBaseline />
+        <Navbar />
+      </BackgroundDiv>
+      <AlgorithmSelect algorithm={algorithm} handleAlgorithmChange={handleAlgorithmChange} />
+      <Divider sx={{ my: 2 }} />
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6}>
+          <StyledPaper elevation={3}>
+            <Typography variant="h4" gutterBottom>Encoded</Typography>
+            <Encoded jwt={jwt} handleJwtChange={handleJwtChange} />
+            <StyledButton variant="contained" onClick={handleClearClick}>Clear</StyledButton>
+          </StyledPaper>
+          {jwt && (
           <Typography 
             variant="h5" 
             align="center" 
@@ -117,25 +91,25 @@ function App() {
           >
             {isSignatureValid ? "Signature Verified" : "Invalid Signature"}
           </Typography>
-        )}
+          )}
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <StyledPaper elevation={3}>
+            <Typography variant="h4" gutterBottom>Decoded</Typography>
+            <Decoded 
+              jwt={jwt}
+              decodedHeader={decodedHeader}
+              decodedPayload={decodedPayload}
+              handleHeaderChange={(e) => setDecodedHeader(e.target.value)}
+              handlePayloadChange={(e) => setDecodedPayload(e.target.value)}
+              secretKey={secretKey}
+              handleSecretKeyChange={(e) => setSecretKey(e.target.value)}
+              isBase64Encoded={isBase64Encoded}
+              handleToggleBase64={() => setIsBase64Encoded(!isBase64Encoded)}
+            />
+          </StyledPaper>
+        </Grid>
       </Grid>
-      <Grid item xs={12} md={6}>
-        <StyledPaper elevation={3}>
-        <Typography variant="h4" gutterBottom>Decoded</Typography>
-        <Decoded 
-            jwt={jwt}
-            decodedHeader={decodedHeader}
-            decodedPayload={decodedPayload}
-            handleHeaderChange={handleHeaderChange}
-            handlePayloadChange={handlePayloadChange}
-            secretKey={secretKey}
-            handleSecretKeyChange={handleSecretKeyChange}
-            isBase64Encoded={isBase64Encoded}
-            handleToggleBase64={handleToggleBase64}
-        />
-        </StyledPaper>
-      </Grid>
-    </Grid>
     </>
   );
 }
