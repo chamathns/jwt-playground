@@ -4,11 +4,14 @@ import Encoded from './Encoded';
 import Decoded from './Decoded';
 import Navbar from './Navbar';
 import { StyledPaper, StyledButton, BackgroundDiv } from './AppStyles';
+import { KJUR } from 'jsrsasign';
+import AlgorithmSelect from './AlgorithmSelect';
 
 function App() {
   const [jwt, setJwt] = useState("");
   const [decodedHeader, setDecodedHeader] = useState("");
   const [decodedPayload, setDecodedPayload] = useState("");
+  const [algorithm, setAlgorithm] = useState("HS256");
 
   const handleJwtChange = (event) => {
     const jwtValue = event.target.value;
@@ -23,6 +26,10 @@ function App() {
     }
   };
 
+  const handleAlgorithmChange = (event) => {
+    setAlgorithm(event.target.value);
+  };
+
   const handleClearClick = () => {
     setJwt("");
     setDecodedHeader("");
@@ -30,11 +37,29 @@ function App() {
   };
 
   const handleHeaderChange = (event) => {
-    setDecodedHeader(event.target.value);
+    const newHeader = event.target.value;
+    setDecodedHeader(newHeader);
+  
+    const newJwt = KJUR.jws.JWS.sign(
+      algorithm,
+      JSON.parse(newHeader),
+      JSON.parse(decodedPayload),
+      "your_secret_key" // Replace this with your actual secret key
+    );
+    setJwt(newJwt);
   };
 
   const handlePayloadChange = (event) => {
-    setDecodedPayload(event.target.value);
+    const newPayload = event.target.value;
+    setDecodedPayload(newPayload);
+  
+    const newJwt = KJUR.jws.JWS.sign(
+      algorithm,
+      JSON.parse(decodedHeader),
+      JSON.parse(newPayload),
+      "your_secret_key" // Replace this with your actual secret key
+    );
+    setJwt(newJwt);
   };
 
   return (
@@ -43,6 +68,7 @@ function App() {
       <CssBaseline />
       <Navbar />
     </BackgroundDiv>
+    <AlgorithmSelect algorithm={algorithm} handleAlgorithmChange={handleAlgorithmChange} />
     <Divider sx={{ my: 2 }} />
     <Grid container spacing={2}>
       <Grid item xs={12} md={6}>

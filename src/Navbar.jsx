@@ -15,7 +15,7 @@ export default function Navbar() {
                 </Typography>
                 <Divider sx={{ my: 2 }} />
                 <Typography variant="subtitle1" gutterBottom sx={{color: '#DDDDDD'}}>
-                    JWT playground allows you to decode JWTs... for now
+                    JWT playground allows you to decode and encode JWTs... for now
                 </Typography>
                 <Box sx={{ mt: 4 }}>
                     <Button variant="contained" color='secondary' sx={{ mr: 2, color: '#DDDDDD' }}>
