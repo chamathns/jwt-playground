@@ -36,3 +36,10 @@ export const StyledButton = styled(Button)({
     backgroundColor: '#0066cc',
   },
 });
+
+export const StyledContainer = styled('div')({
+  marginBottom: '20px',
+  '&:last-child': {
+    marginBottom: '0',
+  },
+});

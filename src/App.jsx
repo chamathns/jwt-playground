@@ -12,6 +12,8 @@ function App() {
   const [decodedHeader, setDecodedHeader] = useState("");
   const [decodedPayload, setDecodedPayload] = useState("");
   const [algorithm, setAlgorithm] = useState("HS256");
+  const [secretKey, setSecretKey] = useState('your-256-bit-secret');
+  const [isBase64Encoded, setIsBase64Encoded] = useState(false);
 
   const handleJwtChange = (event) => {
     const jwtValue = event.target.value;
@@ -24,6 +26,14 @@ function App() {
       setDecodedHeader("");
       setDecodedPayload("");
     }
+  };
+
+  const handleSecretKeyChange = (event) => {
+    setSecretKey(event.target.value);
+  };
+
+  const handleToggleBase64 = () => {
+    setIsBase64Encoded(!isBase64Encoded);
   };
 
   const handleAlgorithmChange = (event) => {
@@ -44,7 +54,7 @@ function App() {
       algorithm,
       JSON.parse(newHeader),
       JSON.parse(decodedPayload),
-      "your_secret_key" // Replace this with your actual secret key
+      secretKey
     );
     setJwt(newJwt);
   };
@@ -57,7 +67,7 @@ function App() {
       algorithm,
       JSON.parse(decodedHeader),
       JSON.parse(newPayload),
-      "your_secret_key" // Replace this with your actual secret key
+      secretKey
     );
     setJwt(newJwt);
   };
@@ -82,10 +92,15 @@ function App() {
         <StyledPaper elevation={3}>
         <Typography variant="h4" gutterBottom>Decoded</Typography>
         <Decoded 
-          decodedHeader={decodedHeader} 
-          decodedPayload={decodedPayload} 
-          handleHeaderChange={handleHeaderChange} 
-          handlePayloadChange={handlePayloadChange} 
+            jwt={jwt}
+            decodedHeader={decodedHeader}
+            decodedPayload={decodedPayload}
+            handleHeaderChange={handleHeaderChange}
+            handlePayloadChange={handlePayloadChange}
+            secretKey={secretKey}
+            handleSecretKeyChange={handleSecretKeyChange}
+            isBase64Encoded={isBase64Encoded}
+            handleToggleBase64={handleToggleBase64}
         />
         </StyledPaper>
       </Grid>
