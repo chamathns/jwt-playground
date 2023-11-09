@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Divider, Typography, Grid, CssBaseline } from '@mui/material';
 import Encoded from './Encoded';
 import Decoded from './Decoded';
@@ -14,19 +14,45 @@ function App() {
   const [algorithm, setAlgorithm] = useState("HS256");
   const [secretKey, setSecretKey] = useState('your-256-bit-secret');
   const [isBase64Encoded, setIsBase64Encoded] = useState(false);
+  const [isSignatureValid, setIsSignatureValid] = useState(false);
 
   const handleJwtChange = (event) => {
-    const jwtValue = event.target.value;
-    setJwt(jwtValue);
-    const parts = jwtValue.split(".");
+    const newJwt = event.target.value;
+    setJwt(newJwt);
+  
+    const parts = newJwt.split('.');
     if (parts.length === 3) {
-      setDecodedHeader(atob(parts[0]));
-      setDecodedPayload(atob(parts[1]));
-    } else {
-      setDecodedHeader("");
-      setDecodedPayload("");
+      const decodedHeader = atob(parts[0]);
+      const decodedPayload = atob(parts[1]);
+      let decodedSignature = parts[2];
+  
+      if (isBase64Encoded) {
+        decodedSignature = atob(decodedSignature);
+      }
+  
+      setDecodedHeader(decodedHeader);
+      setDecodedPayload(decodedPayload);
+  
+      const isValid = KJUR.jws.JWS.verify(newJwt, secretKey, [algorithm]);
+      setIsSignatureValid(isValid);
     }
   };
+
+  useEffect(() => {
+    handleJwtChange({ target: { value: jwt } });
+  }, [jwt]);
+
+  useEffect(() => {
+    if (decodedHeader && decodedPayload) {
+      const newJwt = KJUR.jws.JWS.sign(
+        algorithm,
+        JSON.parse(decodedHeader),
+        JSON.parse(decodedPayload),
+        secretKey
+      );
+      setJwt(newJwt);
+    }
+  }, [secretKey]);
 
   const handleSecretKeyChange = (event) => {
     setSecretKey(event.target.value);
@@ -44,6 +70,7 @@ function App() {
     setJwt("");
     setDecodedHeader("");
     setDecodedPayload("");
+    setIsSignatureValid(false);
   };
 
   const handleHeaderChange = (event) => {
@@ -87,6 +114,15 @@ function App() {
           <Encoded jwt={jwt} handleJwtChange={handleJwtChange} />
           <StyledButton variant="contained" onClick={handleClearClick}>Clear</StyledButton>
         </StyledPaper>
+        {jwt && (
+          <Typography 
+            variant="h5" 
+            align="center" 
+            style={{ color: isSignatureValid ? "green" : "red" }}
+          >
+            {isSignatureValid ? "Signature Verified" : "Invalid Signature"}
+          </Typography>
+        )}
       </Grid>
       <Grid item xs={12} md={6}>
         <StyledPaper elevation={3}>
