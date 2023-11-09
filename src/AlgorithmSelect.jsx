@@ -9,13 +9,12 @@ function AlgorithmSelect({ algorithm, handleAlgorithmChange }) {
                 <MenuItem value="HS256">HS256</MenuItem>
                 <MenuItem value="HS384">HS384</MenuItem>
                 <MenuItem value="HS512">HS512</MenuItem>
-                <MenuItem value="RS256">RS256</MenuItem>
-                <MenuItem value="RS384">RS384</MenuItem>
-                <MenuItem value="RS512">RS512</MenuItem>
-                <MenuItem value="ES256">ES256</MenuItem>
-                <MenuItem value="ES384">ES384</MenuItem>
-                <MenuItem value="ES512">ES512</MenuItem>
-                <MenuItem value="none">none</MenuItem>
+                <MenuItem value="RS256" disabled>RS256</MenuItem>
+                <MenuItem value="RS384" disabled>RS384</MenuItem>
+                <MenuItem value="RS512" disabled>RS512</MenuItem>
+                <MenuItem value="ES256" disabled>ES256</MenuItem>
+                <MenuItem value="ES384" disabled>ES384</MenuItem>
+                <MenuItem value="ES512" disabled>ES512</MenuItem>
             </Select>
         </Box>
     );

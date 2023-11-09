@@ -33,13 +33,36 @@ function App() {
     setAlgorithm(event.target.value);
   };
 
+  useEffect(() => {
+    if (jwt) {
+      const parts = jwt.split('.');
+      const header = JSON.parse(atob(parts[0]));
+      header.alg = algorithm;
+      const newHeader = btoa(JSON.stringify(header));
+      const newJwt = `${newHeader}.${parts[1]}.${parts[2]}`;
+      setJwt(newJwt);
+    }
+  }, [algorithm]);
+
   const verifyAndSetJwt = (newJwt) => {
     setJwt(newJwt);
     const parts = newJwt.split('.');
     if (parts.length === 3) {
-      setDecodedHeader(atob(parts[0]));
+      const decodedHeaderStr = atob(parts[0]);
+      setDecodedHeader(decodedHeaderStr);
+      const decodedHeader = JSON.parse(decodedHeaderStr);
+  
       setDecodedPayload(atob(parts[1]));
-      setIsSignatureValid(KJUR.jws.JWS.verify(newJwt, secretKey, [algorithm]));
+  
+      const jwtAlgorithm = decodedHeader.alg;
+      
+      const acceptedAlgorithms = ['HS256', 'HS384', 'HS512'];
+      if (acceptedAlgorithms.includes(jwtAlgorithm)) {
+        setIsSignatureValid(KJUR.jws.JWS.verifyJWT(newJwt, secretKey, {alg: [jwtAlgorithm]}));
+      } else {
+        console.error(`Algorithm '${jwtAlgorithm}' is not accepted.`);
+        setIsSignatureValid(false);
+      }
     }
   };
 
