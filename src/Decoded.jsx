@@ -53,7 +53,10 @@ function Decoded({
                     value={secretKey}
                     onChange={handleSecretKeyChange}
                 />
-                <FormControlLabel
+                <Typography component="div" gutterBottom>
+                    {"  "})
+                </Typography>
+                {/* <FormControlLabel
                     control={
                         <Checkbox
                             checked={isBase64Encoded}
@@ -61,7 +64,7 @@ function Decoded({
                         />
                     }
                     label="secret base64 encoded"
-                />
+                /> */}
             </StyledContainer>
         </StyledPaper>
     );

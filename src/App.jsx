@@ -17,22 +17,17 @@ function App() {
   const [isSignatureValid, setIsSignatureValid] = useState(false);
 
   const handleJwtChange = (event) => {
+
     const newJwt = event.target.value;
     setJwt(newJwt);
-  
+
     const parts = newJwt.split('.');
     if (parts.length === 3) {
       const decodedHeader = atob(parts[0]);
       const decodedPayload = atob(parts[1]);
-      let decodedSignature = parts[2];
-  
-      if (isBase64Encoded) {
-        decodedSignature = atob(decodedSignature);
-      }
-  
       setDecodedHeader(decodedHeader);
       setDecodedPayload(decodedPayload);
-  
+
       const isValid = KJUR.jws.JWS.verify(newJwt, secretKey, [algorithm]);
       setIsSignatureValid(isValid);
     }
