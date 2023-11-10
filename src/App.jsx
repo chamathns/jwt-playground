@@ -129,6 +129,7 @@ function App() {
               handleSecretKeyChange={(e) => setSecretKey(e.target.value)}
               isBase64Encoded={isBase64Encoded}
               handleToggleBase64={() => setIsBase64Encoded(!isBase64Encoded)}
+              algorithm={algorithm}
             />
           </StyledPaper>
         </Grid>

@@ -10,6 +10,18 @@ const JSONTextarea = ({ value, onChange }) => (
   />
 );
 
+const algorithmNames = {
+    'HS256': 'HMACSHA256',
+    'HS384': 'HMACSHA384',
+    'HS512': 'HMACSHA512',
+    'RS256': 'RSASHA256',
+    'RS384': 'RSASHA384',
+    'RS512': 'RSASHA512',
+    'ES256': 'ECDSASHA256',
+    'ES384': 'ECDSASHA384',
+    'ES512': 'ECDSASHA512',
+  };
+
 function Decoded({
     decodedHeader,
     decodedPayload,
@@ -19,6 +31,7 @@ function Decoded({
     handleSecretKeyChange,
     isBase64Encoded,
     handleToggleBase64,
+    algorithm
 }) {
     const parsedHeader = decodedHeader ? JSON.parse(decodedHeader) : {};
     const parsedPayload = decodedPayload ? JSON.parse(decodedPayload) : {};
@@ -38,7 +51,7 @@ function Decoded({
             <StyledContainer>
                 <Typography variant="h6" style={{ marginBottom: '10px' }}>VERIFY SIGNATURE</Typography>
                 <Typography component="div" gutterBottom>
-                    HMACSHA256(
+                    {algorithmNames[algorithm]}(
                 </Typography>
                 <Typography component="div" gutterBottom style={{ marginLeft: '20px' }}>
                     base64UrlEncode(header) + "."
