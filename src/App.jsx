@@ -6,13 +6,9 @@ import Navbar from './Navbar';
 import AlgorithmSelect from './AlgorithmSelect';
 import { BackgroundDiv, StyledPaper, StyledButton } from './AppStyles';
 import { KJUR } from 'jsrsasign';
-import { ThemeProvider } from "@oxygen-ui/react/theme";
 import { AsgardeoTheme } from "./theme.ts";
-import Grid from "@oxygen-ui/react/Grid";
-import Typography from "@oxygen-ui/react/Typography";
-import Divider from "@oxygen-ui/react/Divider";
+import { Grid, Typography, Divider, ThemeProvider } from "@oxygen-ui/react";
 import { INITIAL_JWT } from './constants.js';
-
 
 function App() {
   const [jwt, setJwt] = useState(INITIAL_JWT);
