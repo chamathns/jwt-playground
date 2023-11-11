@@ -12,7 +12,7 @@ function Encoded({ jwt, handleJwtChange }) {
                                 value={jwt}
                                 onChange={handleJwtChange}
                                 placeholder="Paste a token here..."
-                                variant="outlined"
+                                variant="standard"
                                 fullWidth
                                 InputProps={{
                                         style: { color: blueGrey[500], fontFamily: 'Menlo' },

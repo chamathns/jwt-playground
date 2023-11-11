@@ -2,8 +2,7 @@ import React from 'react';
 import { StyledPaper, StyledContainer } from './AppStyles';
 import { purple, cyan } from '@mui/material/colors';
 import { Typography, TextField } from "@oxygen-ui/react";
-
-// (possible exports: amber, blue, blueGrey, brown, common, cyan, deepOrange, deepPurple, green, grey, indigo, lightBlue, lightGreen, lime, orange, pink, purple, red, teal, yellow)
+import VerifySignature from './VerifySignature';
 
 const JSONTextareaHeader = ({ value, onChange }) => (
     <TextField
@@ -73,34 +72,7 @@ function Decoded({
                 <JSONTextareaPayload value={parsedPayload} onChange={handlePayloadChange} />
             </StyledContainer>
 
-            <StyledContainer>
-                <Typography variant="h6" style={{ marginBottom: '10px' }}>VERIFY SIGNATURE</Typography>
-                <Typography component="div" gutterBottom sx={{ color: cyan[500], fontFamily: 'Menlo' }}>
-                    {algorithmNames[algorithm]}(
-                </Typography>
-                <Typography component="div" gutterBottom style={{ marginLeft: '20px' }} sx={{ color: cyan[500], fontFamily: 'Menlo' }}>
-                    base64UrlEncode(header) + "."
-                </Typography>
-                <Typography component="div" gutterBottom style={{ marginLeft: '20px' }} sx={{ color: cyan[500], fontFamily: 'Menlo' }}>
-                    base64UrlEncode(payload),
-                </Typography>
-            
-                <TextField
-                    multiline
-                    minRows={1}
-                    value={secretKey}
-                    onChange={handleSecretKeyChange}
-                    placeholder="your-256-bit-secret"
-                    variant="outlined"
-                    style={{ marginLeft: '20px', width: '50%' }}
-                    InputProps={{
-                        style: { color: cyan[500], fontFamily: 'monospace' },
-                      }}
-                />
-                <Typography component="div" gutterBottom sx={{ color: cyan[500], fontFamily: 'Menlo' }}>
-                    )
-                </Typography>
-            </StyledContainer>
+            <VerifySignature algorithm={algorithm} secretKey={secretKey} handleSecretKeyChange={handleSecretKeyChange} />
 
             {/* <FormControlLabel
                 control={
