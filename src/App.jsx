@@ -24,21 +24,66 @@ function App() {
   const [isSignatureValid, setIsSignatureValid] = useState(false);
   const [isHeaderValid, setIsHeaderValid] = useState(true);
   const [isPayloadValid, setIsPayloadValid] = useState(true);
+  const [isEncodedHeaderValid, setIsEncodedHeaderValid] = useState(true);
+  const [isEncodedPayloadValid, setIsEncodedPayloadValid] = useState(true);
+  let isEncodedHeaderValidLocal = true;
+  let isEncodedPayloadValidLocal = true;
 
   useEffect(() => {
-    if (isHeaderValid && isPayloadValid) {
+    if (isHeaderValid && isPayloadValid && isEncodedHeaderValid && isEncodedPayloadValid) {
       verifyAndSetJwt(jwt);
     }
   }, [jwt]);
 
   useEffect(() => {
-    signAndSetJwt(decodedHeader, decodedPayload);
+    if (!isHeaderValid || !isPayloadValid || !isEncodedHeaderValid || !isEncodedPayloadValid) {
+      setIsSignatureValid(false);
+    } else if (isHeaderValid && isPayloadValid && isEncodedHeaderValid && isEncodedPayloadValid) {
+      setIsSignatureValid(true);
+    }
+  }, [isHeaderValid, isPayloadValid, isEncodedHeaderValid, isEncodedPayloadValid]);
+
+  useEffect(() => {
+    if (isHeaderValid && isPayloadValid && isEncodedHeaderValid && isEncodedPayloadValid) {
+      signAndSetJwt(decodedHeader, decodedPayload);
+    }
   }, [decodedHeader, decodedPayload, secretKey]);
 
   const handleJwtChange = (event) => {
-    if (isHeaderValid && isPayloadValid) {
-      const newJwt = event.target.value;
-      verifyAndSetJwt(newJwt);
+    const newJwt = event.target.value;
+    const parts = newJwt.split('.');
+    
+    if (parts.length === 3) {
+      let header = {};
+      let payload = {};
+
+      try {
+        header = JSON.parse(atob(parts[0]));
+        setIsEncodedHeaderValid(true);
+        isEncodedHeaderValidLocal = true;
+      } catch (error) {
+        setIsEncodedHeaderValid(false);
+        isEncodedHeaderValidLocal = false;
+        header = {};
+        setDecodedHeader(header);
+      }
+
+      try {
+        payload = JSON.parse(atob(parts[1]));
+        setIsEncodedPayloadValid(true);
+        isEncodedPayloadValidLocal = true;
+      } catch (error) {
+        setIsEncodedPayloadValid(false);
+        isEncodedPayloadValidLocal = false;
+        payload = {};
+        setDecodedPayload(payload);
+      }
+
+      if (header && payload && isEncodedHeaderValid && isEncodedPayloadValid) {
+        verifyAndSetJwt(newJwt);
+      } else {
+        setJwt(newJwt);
+      }
     }
   };
 
@@ -53,7 +98,6 @@ function App() {
       JSON.parse(newHeader);
       setIsHeaderValid(true);
     } catch (error) {
-      console.error('Invalid JSON:', error);
       setIsHeaderValid(false);
       setJwt('');
     }
@@ -66,7 +110,6 @@ function App() {
       JSON.parse(newPayload);
       setIsPayloadValid(true);
     } catch (error) {
-      console.error('Invalid JSON:', error);
       setIsPayloadValid(false);
       setJwt('');
     }
@@ -84,7 +127,9 @@ function App() {
   }, [algorithm]);
 
   const verifyAndSetJwt = (newJwt) => {
-    if (!isHeaderValid) {
+
+    if (!isHeaderValid || !isPayloadValid || !isEncodedHeaderValid || !isEncodedPayloadValid || !isEncodedHeaderValidLocal || !isEncodedPayloadValidLocal) {
+      setJwt(newJwt);
       return;
     }
     setJwt(newJwt);
@@ -176,6 +221,8 @@ function App() {
                 setIsHeaderValid={setIsHeaderValid}
                 isPayloadValid={isPayloadValid}
                 setIsPayloadValid={setIsPayloadValid}
+                isEncodedHeaderValid={isEncodedHeaderValid}
+                isEncodedPayloadValid={isEncodedPayloadValid}
               />
             </StyledPaper>
           </Grid>

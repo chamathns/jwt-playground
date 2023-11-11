@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { StyledPaper, StyledContainer } from './AppStyles';
 import { purple, cyan } from '@mui/material/colors';
 import { Typography, TextField } from "@oxygen-ui/react";
@@ -52,26 +51,30 @@ function Decoded({
     isHeaderValid,
     setIsHeaderValid,
     isPayloadValid,
-    setIsPayloadValid
+    setIsPayloadValid,
+    isEncodedHeaderValid,
+    isEncodedPayloadValid
 }) {
     let parsedHeader = {};
     try {
-    parsedHeader = decodedHeader ? JSON.parse(decodedHeader) : {};
-    setIsHeaderValid(true);
+        if (isEncodedHeaderValid) {
+            parsedHeader = decodedHeader ? JSON.parse(decodedHeader) : {};
+            setIsHeaderValid(true);
+        }
     } catch (error) {
         parsedHeader = decodedHeader;
-        console.error('Error parsing header JSON:', error);
         setIsHeaderValid(false);
     }
 
     let parsedPayload = {};
     try {
-    parsedPayload = decodedPayload ? JSON.parse(decodedPayload) : {};
-    setIsPayloadValid(true);
+        if (isEncodedPayloadValid) {
+            parsedPayload = decodedPayload ? JSON.parse(decodedPayload) : {};
+            setIsPayloadValid(true);
+        }
     }
     catch (error) {
         parsedPayload = decodedPayload;    
-        console.error('Error parsing payload JSON:', error);
         setIsPayloadValid(false);
     }
     return (
