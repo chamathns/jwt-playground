@@ -181,11 +181,14 @@ function App() {
           <CssBaseline />
           <Navbar />
         <AlgorithmSelect algorithm={algorithm} handleAlgorithmChange={handleAlgorithmChange} />
-        <Divider sx={{ my: 2 }} />
+        <Divider sx={{ my: 2, borderColor: 'transparent' }} />
         <Grid container spacing={2} sx={{ margin: '0 auto', maxWidth: '80%' }}>
           <Grid item xs={12} md={6}>
             <StyledPaper elevation={3}>
-              <Typography variant="h4" gutterBottom>Encoded</Typography>
+              <Typography variant="h4" gutterBottom>
+                Encoded
+                {jwt && <span style={{fontSize: '0.6rem', color: 'gray', marginLeft: '6px'}}> PASTE A TOKEN HERE</span>}
+              </Typography>
               <Encoded jwt={jwt} handleJwtChange={handleJwtChange} />
               <StyledButton variant="contained" onClick={handleClearClick}>Clear</StyledButton>
             </StyledPaper>
@@ -201,7 +204,7 @@ function App() {
           </Grid>
           <Grid item xs={12} md={6}>
             <StyledPaper elevation={3}>
-              <Typography variant="h4" gutterBottom>Decoded</Typography>
+              <Typography variant="h4" gutterBottom>Decoded <span style={{fontSize: '0.6rem', color: 'gray', marginLeft: '6px'}}> EDIT THE PAYLOAD AND SECRET</span></Typography>
               <Decoded 
                 jwt={jwt}
                 decodedHeader={decodedHeader}

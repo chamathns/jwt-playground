@@ -3,7 +3,7 @@ import { Select, MenuItem, Box, Typography } from '@mui/material';
 
 function AlgorithmSelect({ algorithm, handleAlgorithmChange }) {
     return (
-        <Box display="flex" justifyContent="center" alignItems="center" margin={2}>
+        <Box display="flex" justifyContent="center" alignItems="center" margin={2} pt={2}>
             <Typography variant="body1">Algorithm: </Typography>
             <Select value={algorithm} onChange={handleAlgorithmChange} style={{ marginLeft: '10px' }}>
                 <MenuItem value="HS256">HS256</MenuItem>

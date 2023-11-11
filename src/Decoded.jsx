@@ -80,12 +80,12 @@ function Decoded({
     return (
         <StyledPaper elevation={3}>
             <StyledContainer>
-                <Typography variant="h6">HEADER: ALGORITHM & TOKEN TYPE</Typography>
+                <Typography variant="h6">HEADER: <span style={{fontSize: '0.9rem', color: 'gray'}}>ALGORITHM & TOKEN TYPE</span></Typography>
                 <JSONTextareaHeader value={parsedHeader} onChange={handleHeaderChange} isHeaderValid={isHeaderValid}/>
             </StyledContainer>
 
             <StyledContainer>
-                <Typography variant="h6">PAYLOAD: DATA</Typography>
+                <Typography variant="h6">PAYLOAD: <span style={{fontSize: '0.9rem', color: 'gray'}}>DATA</span></Typography>
                 <JSONTextareaPayload value={parsedPayload} onChange={handlePayloadChange} isPayloadValid={isPayloadValid} />
             </StyledContainer>
 
