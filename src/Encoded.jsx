@@ -15,7 +15,7 @@ function Encoded({ jwt, handleJwtChange }) {
                                 variant="standard"
                                 fullWidth
                                 InputProps={{
-                                        style: { color: blueGrey[500], fontFamily: 'Menlo' },
+                                        style: { color: blueGrey[600], fontFamily: 'Menlo' },
                                 }}
                         />
                 </StyledPaper>

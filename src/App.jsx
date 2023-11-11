@@ -11,10 +11,11 @@ import { AsgardeoTheme } from "./theme.ts";
 import Grid from "@oxygen-ui/react/Grid";
 import Typography from "@oxygen-ui/react/Typography";
 import Divider from "@oxygen-ui/react/Divider";
+import { INITIAL_JWT } from './constants.js';
 
 
 function App() {
-  const [jwt, setJwt] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.reGQzG3OKdoIMWLDKOZ4TICJit3EW69cQE72E2CfzRE");
+  const [jwt, setJwt] = useState(INITIAL_JWT);
   const [decodedHeader, setDecodedHeader] = useState("");
   const [decodedPayload, setDecodedPayload] = useState("");
   const [algorithm, setAlgorithm] = useState("HS256");
