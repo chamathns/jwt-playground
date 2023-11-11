@@ -1,14 +1,39 @@
 import React from 'react';
-import { Typography, FormControlLabel, Checkbox } from '@mui/material';
+import { Typography, FormControlLabel, TextField, Checkbox } from '@mui/material';
 import { StyledPaper, StyledTextarea, StyledContainer } from './AppStyles';
+import { pink, purple, cyan } from '@mui/material/colors';
 
-const JSONTextarea = ({ value, onChange }) => (
-  <StyledTextarea
-    minRows={3}
-    value={JSON.stringify(value, null, 2)}
-    onChange={onChange}
-  />
-);
+// (possible exports: amber, blue, blueGrey, brown, common, cyan, deepOrange, deepPurple, green, grey, indigo, lightBlue, lightGreen, lime, orange, pink, purple, red, teal, yellow)
+
+const JSONTextareaHeader = ({ value, onChange }) => (
+    <TextField
+      multiline
+      minRows={3}
+      value={JSON.stringify(value, null, 2)}
+      onChange={onChange}
+      variant="outlined"
+      fullWidth
+      InputProps={{
+        style: { color: "#fb015b", fontFamily: 'Menlo' },
+      }}
+    />
+  );
+
+const JSONTextareaPayload = ({ value, onChange }) => (
+    <TextField
+      multiline
+      minRows={3}
+      value={JSON.stringify(value, null, 2)}
+      onChange={onChange}
+      variant="outlined"
+      fullWidth
+      InputProps={{
+        style: { color: purple[500], fontFamily: 'Menlo' },
+      }}
+    />
+  );
+
+
 
 const algorithmNames = {
     'HS256': 'HMACSHA256',
@@ -40,33 +65,39 @@ function Decoded({
         <StyledPaper elevation={3}>
             <StyledContainer>
                 <Typography variant="h6">HEADER: ALGORITHM & TOKEN TYPE</Typography>
-                <JSONTextarea value={parsedHeader} onChange={handleHeaderChange} />
+                <JSONTextareaHeader value={parsedHeader} onChange={handleHeaderChange} />
             </StyledContainer>
 
             <StyledContainer>
                 <Typography variant="h6">PAYLOAD: DATA</Typography>
-                <JSONTextarea value={parsedPayload} onChange={handlePayloadChange} />
+                <JSONTextareaPayload value={parsedPayload} onChange={handlePayloadChange} />
             </StyledContainer>
 
             <StyledContainer>
                 <Typography variant="h6" style={{ marginBottom: '10px' }}>VERIFY SIGNATURE</Typography>
-                <Typography component="div" gutterBottom>
+                <Typography component="div" gutterBottom sx={{ color: cyan[500], fontFamily: 'Menlo' }}>
                     {algorithmNames[algorithm]}(
                 </Typography>
-                <Typography component="div" gutterBottom style={{ marginLeft: '20px' }}>
+                <Typography component="div" gutterBottom style={{ marginLeft: '20px' }} sx={{ color: cyan[500], fontFamily: 'Menlo' }}>
                     base64UrlEncode(header) + "."
                 </Typography>
-                <Typography component="div" gutterBottom style={{ marginLeft: '20px' }}>
+                <Typography component="div" gutterBottom style={{ marginLeft: '20px' }} sx={{ color: cyan[500], fontFamily: 'Menlo' }}>
                     base64UrlEncode(payload),
                 </Typography>
-                <StyledTextarea
+            
+                <TextField
+                    multiline
                     minRows={1}
-                    placeholder="your-256-bit-secret"
                     value={secretKey}
                     onChange={handleSecretKeyChange}
+                    placeholder="your-256-bit-secret"
+                    variant="outlined"
                     style={{ marginLeft: '20px', width: '50%' }}
+                    InputProps={{
+                        style: { color: cyan[500], fontFamily: 'monospace' },
+                      }}
                 />
-                <Typography component="div" gutterBottom>
+                <Typography component="div" gutterBottom sx={{ color: cyan[500], fontFamily: 'Menlo' }}>
                     )
                 </Typography>
             </StyledContainer>
