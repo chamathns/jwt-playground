@@ -1,50 +1,43 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyledPaper, StyledContainer } from './AppStyles';
 import { purple, cyan } from '@mui/material/colors';
 import { Typography, TextField } from "@oxygen-ui/react";
 import VerifySignature from './VerifySignature';
 
-const JSONTextareaHeader = ({ value, onChange }) => (
+const JSONTextareaHeader = ({ value, onChange, isHeaderValid }) => (
     <TextField
       multiline
       minRows={3}
-      value={JSON.stringify(value, null, 2)}
+      value={isHeaderValid ? JSON.stringify(value, null, 2) : value}
       onChange={onChange}
       variant="outlined"
       fullWidth
       InputProps={{
-        style: { color: "#fb015b", fontFamily: 'Menlo' },
+        style: { 
+            color: "#fb015b", 
+            fontFamily: 'Menlo', 
+            background: isHeaderValid ? '' : 'rgba(255, 192, 203, 0.5)'
+        },
       }}
     />
   );
 
-const JSONTextareaPayload = ({ value, onChange }) => (
+const JSONTextareaPayload = ({ value, onChange, isPayloadValid }) => (
     <TextField
       multiline
       minRows={3}
-      value={JSON.stringify(value, null, 2)}
+      value={isPayloadValid ? JSON.stringify(value, null, 2) : value}
       onChange={onChange}
       variant="outlined"
       fullWidth
       InputProps={{
-        style: { color: purple[500], fontFamily: 'Menlo' },
-      }}
+        style: { 
+            color: purple[500], 
+            fontFamily: 'Menlo', 
+            background: isPayloadValid ? '' : 'rgba(255, 192, 203, 0.5)'
+        },      }}
     />
   );
-
-
-
-const algorithmNames = {
-    'HS256': 'HMACSHA256',
-    'HS384': 'HMACSHA384',
-    'HS512': 'HMACSHA512',
-    'RS256': 'RSASHA256',
-    'RS384': 'RSASHA384',
-    'RS512': 'RSASHA512',
-    'ES256': 'ECDSASHA256',
-    'ES384': 'ECDSASHA384',
-    'ES512': 'ECDSASHA512',
-  };
 
 function Decoded({
     decodedHeader,
@@ -55,21 +48,42 @@ function Decoded({
     handleSecretKeyChange,
     isBase64Encoded,
     handleToggleBase64,
-    algorithm
+    algorithm,
+    isHeaderValid,
+    setIsHeaderValid,
+    isPayloadValid,
+    setIsPayloadValid
 }) {
-    const parsedHeader = decodedHeader ? JSON.parse(decodedHeader) : {};
-    const parsedPayload = decodedPayload ? JSON.parse(decodedPayload) : {};
+    let parsedHeader = {};
+    try {
+    parsedHeader = decodedHeader ? JSON.parse(decodedHeader) : {};
+    setIsHeaderValid(true);
+    } catch (error) {
+        parsedHeader = decodedHeader;
+        console.error('Error parsing header JSON:', error);
+        setIsHeaderValid(false);
+    }
 
+    let parsedPayload = {};
+    try {
+    parsedPayload = decodedPayload ? JSON.parse(decodedPayload) : {};
+    setIsPayloadValid(true);
+    }
+    catch (error) {
+        parsedPayload = decodedPayload;    
+        console.error('Error parsing payload JSON:', error);
+        setIsPayloadValid(false);
+    }
     return (
         <StyledPaper elevation={3}>
             <StyledContainer>
                 <Typography variant="h6">HEADER: ALGORITHM & TOKEN TYPE</Typography>
-                <JSONTextareaHeader value={parsedHeader} onChange={handleHeaderChange} />
+                <JSONTextareaHeader value={parsedHeader} onChange={handleHeaderChange} isHeaderValid={isHeaderValid}/>
             </StyledContainer>
 
             <StyledContainer>
                 <Typography variant="h6">PAYLOAD: DATA</Typography>
-                <JSONTextareaPayload value={parsedPayload} onChange={handlePayloadChange} />
+                <JSONTextareaPayload value={parsedPayload} onChange={handlePayloadChange} isPayloadValid={isPayloadValid} />
             </StyledContainer>
 
             <VerifySignature algorithm={algorithm} secretKey={secretKey} handleSecretKeyChange={handleSecretKeyChange} />

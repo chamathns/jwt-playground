@@ -22,9 +22,13 @@ function App() {
   const [secretKey, setSecretKey] = useState('your-256-bit-secret');
   const [isBase64Encoded, setIsBase64Encoded] = useState(false);
   const [isSignatureValid, setIsSignatureValid] = useState(false);
+  const [isHeaderValid, setIsHeaderValid] = useState(true);
+  const [isPayloadValid, setIsPayloadValid] = useState(true);
 
   useEffect(() => {
-    verifyAndSetJwt(jwt);
+    if (isHeaderValid && isPayloadValid) {
+      verifyAndSetJwt(jwt);
+    }
   }, [jwt]);
 
   useEffect(() => {
@@ -32,12 +36,40 @@ function App() {
   }, [decodedHeader, decodedPayload, secretKey]);
 
   const handleJwtChange = (event) => {
-    const newJwt = event.target.value;
-    verifyAndSetJwt(newJwt);
+    if (isHeaderValid && isPayloadValid) {
+      const newJwt = event.target.value;
+      verifyAndSetJwt(newJwt);
+    }
   };
 
   const handleAlgorithmChange = (event) => {
     setAlgorithm(event.target.value);
+  };
+
+  const handleHeaderChange = (e) => {
+    const newHeader = e.target.value;
+    setDecodedHeader(newHeader);
+    try {
+      JSON.parse(newHeader);
+      setIsHeaderValid(true);
+    } catch (error) {
+      console.error('Invalid JSON:', error);
+      setIsHeaderValid(false);
+      setJwt('');
+    }
+  };
+
+  const handlePayloadChange = (e) => {
+    const newPayload = e.target.value;
+    setDecodedPayload(newPayload);
+    try {
+      JSON.parse(newPayload);
+      setIsPayloadValid(true);
+    } catch (error) {
+      console.error('Invalid JSON:', error);
+      setIsPayloadValid(false);
+      setJwt('');
+    }
   };
 
   useEffect(() => {
@@ -52,6 +84,9 @@ function App() {
   }, [algorithm]);
 
   const verifyAndSetJwt = (newJwt) => {
+    if (!isHeaderValid) {
+      return;
+    }
     setJwt(newJwt);
     const parts = newJwt.split('.');
     if (parts.length === 3) {
@@ -130,13 +165,17 @@ function App() {
                 jwt={jwt}
                 decodedHeader={decodedHeader}
                 decodedPayload={decodedPayload}
-                handleHeaderChange={(e) => setDecodedHeader(e.target.value)}
-                handlePayloadChange={(e) => setDecodedPayload(e.target.value)}
+                handleHeaderChange={ handleHeaderChange }
+                handlePayloadChange={ handlePayloadChange }
                 secretKey={secretKey}
                 handleSecretKeyChange={(e) => setSecretKey(e.target.value)}
                 isBase64Encoded={isBase64Encoded}
                 handleToggleBase64={() => setIsBase64Encoded(!isBase64Encoded)}
                 algorithm={algorithm}
+                isHeaderValid={isHeaderValid}
+                setIsHeaderValid={setIsHeaderValid}
+                isPayloadValid={isPayloadValid}
+                setIsPayloadValid={setIsPayloadValid}
               />
             </StyledPaper>
           </Grid>
