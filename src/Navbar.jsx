@@ -1,55 +1,56 @@
 import React from 'react';
-import { Button, Typography, Box, Paper, Divider } from '@mui/material';
+import { Paper } from '@mui/material';
 import { Warning } from '@mui/icons-material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled } from '@mui/system';
 
-const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#3f51b5',
-      },
-      secondary: {
-        main: '#f50057',
+import { AsgardeoTheme } from "./theme.ts";
+import { Typography, Button, Box, ThemeProvider, Divider } from "@oxygen-ui/react";
+
+const DangerZonePaper = styled(Paper)(({ theme }) => ({
+    '&.danger-zone': {
+      background: 'transparent',
+      boxShadow: 'none',
+      border: `1px solid ${theme.palette.error.main}`,
+      borderRadius: theme.shape.borderRadius,
+      '.sub-header': {
+        marginTop: '5px',
       },
     },
-    typography: {
-      fontFamily: 'Arial',
-    },
-  });
+  }));
 
 export default function Navbar() {
     return (
-        <ThemeProvider theme={theme}>
-            <Box sx={{ display: 'flex', background: 'transparent', flexDirection: 'column', alignItems: 'center', p: 4 }}>
+        <ThemeProvider theme={AsgardeoTheme}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', p: 4 }}>
                 <Paper elevation={3} sx={{ p: 4, width: '100%', background: 'transparent', maxWidth: 'hw', textAlign: 'center' }}>
-                    <Typography variant="h4" gutterBottom sx={{color: '#DDDDDD', fontFamily: '-apple-system'}}>
+                    <Typography align="center" className="oxygen-sign-in-header" variant="h4"sx={{ fontFamily: 'Gilmer,-apple-system,BlinkMacSystemFont,Segoe UI,HelveticaNeue-Light,Ubuntu,Droid Sans,sans-serif,font-awesome,Helvetica Neue,Arial,Helvetica' }} >
                         JSON Web Tokens
                     </Typography>
-                    <Typography variant="h6" sx={{color: '#DDDDDD', fontFamily: 'Helvetica Neue'}}>
+                    <Typography variant="body1">
                         JSON Web Tokens are an open, industry standard <strong><a href="https://tools.ietf.org/html/rfc7519" target="_blank" rel="noopener noreferrer">RFC 7519</a></strong> method for representing
                         claims securely between two parties.
                     </Typography>
                     <Divider sx={{ my: 2 }} />
-                    <Typography variant="subtitle1" gutterBottom sx={{color: '#DDDDDD'}}>
+                    <Typography variant="body2">
                         JWT playground allows you to decode and encode JWTs... for now
                     </Typography>
                     <Box sx={{ mt: 4 }}>
-                        <Button variant="contained" color='secondary' sx={{ mr: 2, color: '#DDDDDD' }}>
+                        <Button variant="contained" color='secondary' sx={{ mr: 2,  }}>
                             Learn more about JWT
                         </Button>
-                        <Button variant="outlined" color="secondary" sx={{ mr: 2, color: '#DDDDDD' }}>
+                        <Button variant="outlined" color="secondary" sx={{ mr: 2,  }}>
                             See JWT Libraries
                         </Button>
                     </Box>
-                    <Box sx={{ mt: 4, background: 'transparent', alignItems: 'center' }}>
-                        <Paper elevation={0} variant="outlined" sx={{ p: 2, background: 'transparent', alignItems: 'center', width: '100%' }}>
-                            <Typography variant="body2" sx={{ ml: 2, textAlign: 'center', fontFamily: 'Helvetica Neue', color: 'wheat' }}>
+                    <Box sx={{ mt: 4, background: 'transparent', alignItems: 'center', display: 'flex', justifyContent: 'center' }}>
+                        <DangerZonePaper elevation={0} variant="outlined" className="danger-zone" sx={{ p: 2, background: 'transparent', alignItems: 'center', width: '80%', margin: 'auto' }}>
+                            <Typography variant="body2">
                                 <Warning color="warning" sx={{mr: 1, verticalAlign: 'bottom'}} />
                                 Warning: JWTs are credentials, which can grant access to resources. Be careful where you
                                 paste them! We do not record tokens, all validation and debugging is done on the client
                                 side.
                             </Typography>
-                        </Paper>
+                        </DangerZonePaper>
                     </Box>
                 </Paper>
             </Box>

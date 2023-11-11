@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Divider, Typography, Grid, CssBaseline } from '@mui/material';
+import { CssBaseline } from '@mui/material';
 import Encoded from './Encoded';
 import Decoded from './Decoded';
 import Navbar from './Navbar';
 import AlgorithmSelect from './AlgorithmSelect';
 import { BackgroundDiv, StyledPaper, StyledButton } from './AppStyles';
 import { KJUR } from 'jsrsasign';
+import { ThemeProvider } from "@oxygen-ui/react/theme";
+import { AsgardeoTheme } from "./theme.ts";
+import Grid from "@oxygen-ui/react/Grid";
+import Typography from "@oxygen-ui/react/Typography";
+import Divider from "@oxygen-ui/react/Divider";
+
 
 function App() {
   const [jwt, setJwt] = useState("");
@@ -93,47 +99,49 @@ function App() {
 
   return (
     <>
+    <ThemeProvider theme={ AsgardeoTheme } defaultMode="light" modeStorageKey="console-oxygen-mode">
       <BackgroundDiv>
-        <CssBaseline />
-        <Navbar />
-      </BackgroundDiv>
-      <AlgorithmSelect algorithm={algorithm} handleAlgorithmChange={handleAlgorithmChange} />
-      <Divider sx={{ my: 2 }} />
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <StyledPaper elevation={3}>
-            <Typography variant="h4" gutterBottom>Encoded</Typography>
-            <Encoded jwt={jwt} handleJwtChange={handleJwtChange} />
-            <StyledButton variant="contained" onClick={handleClearClick}>Clear</StyledButton>
-          </StyledPaper>
-          {jwt && (
-          <Typography 
-            variant="h5" 
-            align="center" 
-            style={{ color: isSignatureValid ? "green" : "red" }}
-          >
-            {isSignatureValid ? "Signature Verified" : "Invalid Signature"}
-          </Typography>
-          )}
+          <CssBaseline />
+          <Navbar />
+        <AlgorithmSelect algorithm={algorithm} handleAlgorithmChange={handleAlgorithmChange} />
+        <Divider sx={{ my: 2 }} />
+        <Grid container spacing={2} sx={{ margin: '0 auto', maxWidth: '80%' }}>
+          <Grid item xs={12} md={6}>
+            <StyledPaper elevation={3}>
+              <Typography variant="h4" gutterBottom>Encoded</Typography>
+              <Encoded jwt={jwt} handleJwtChange={handleJwtChange} />
+              <StyledButton variant="contained" onClick={handleClearClick}>Clear</StyledButton>
+            </StyledPaper>
+            {jwt && (
+            <Typography 
+              variant="h5" 
+              align="center" 
+              style={{ color: isSignatureValid ? "green" : "red" }}
+            >
+              {isSignatureValid ? "Signature Verified" : "Invalid Signature"}
+            </Typography>
+            )}
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <StyledPaper elevation={3}>
+              <Typography variant="h4" gutterBottom>Decoded</Typography>
+              <Decoded 
+                jwt={jwt}
+                decodedHeader={decodedHeader}
+                decodedPayload={decodedPayload}
+                handleHeaderChange={(e) => setDecodedHeader(e.target.value)}
+                handlePayloadChange={(e) => setDecodedPayload(e.target.value)}
+                secretKey={secretKey}
+                handleSecretKeyChange={(e) => setSecretKey(e.target.value)}
+                isBase64Encoded={isBase64Encoded}
+                handleToggleBase64={() => setIsBase64Encoded(!isBase64Encoded)}
+                algorithm={algorithm}
+              />
+            </StyledPaper>
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <StyledPaper elevation={3}>
-            <Typography variant="h4" gutterBottom>Decoded</Typography>
-            <Decoded 
-              jwt={jwt}
-              decodedHeader={decodedHeader}
-              decodedPayload={decodedPayload}
-              handleHeaderChange={(e) => setDecodedHeader(e.target.value)}
-              handlePayloadChange={(e) => setDecodedPayload(e.target.value)}
-              secretKey={secretKey}
-              handleSecretKeyChange={(e) => setSecretKey(e.target.value)}
-              isBase64Encoded={isBase64Encoded}
-              handleToggleBase64={() => setIsBase64Encoded(!isBase64Encoded)}
-              algorithm={algorithm}
-            />
-          </StyledPaper>
-        </Grid>
-      </Grid>
+        </BackgroundDiv>
+    </ThemeProvider>
     </>
   );
 }

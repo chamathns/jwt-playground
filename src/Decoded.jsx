@@ -1,7 +1,7 @@
 import React from 'react';
-import { Typography, FormControlLabel, TextField, Checkbox } from '@mui/material';
-import { StyledPaper, StyledTextarea, StyledContainer } from './AppStyles';
-import { pink, purple, cyan } from '@mui/material/colors';
+import { StyledPaper, StyledContainer } from './AppStyles';
+import { purple, cyan } from '@mui/material/colors';
+import { Typography, TextField } from "@oxygen-ui/react";
 
 // (possible exports: amber, blue, blueGrey, brown, common, cyan, deepOrange, deepPurple, green, grey, indigo, lightBlue, lightGreen, lime, orange, pink, purple, red, teal, yellow)
 

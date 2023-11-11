@@ -1,10 +1,11 @@
 import { styled } from '@mui/system';
-import { Paper, Button, TextareaAutosize } from '@mui/material';
+import { TextareaAutosize } from '@mui/material';
+import { Button, Paper } from '@oxygen-ui/react';
 
 export const BackgroundDiv = styled('div')({
-    background: 'linear-gradient(to right, #0f0c29, #302b63, #24243e)',
-    width: '100vw',
-  });
+  background: 'radial-gradient(circle at 50% 50%,rgba(243,115,33,.21836485) 0,rgba(245,246,246,.38559174) 35%,rgba(245,246,246,1) 100%), radial-gradient(circle at 50% 50%,rgba(144,37,142,.123433123) 0,rgba(245,246,246,.38559174) 47%,rgba(245,246,246,1) 100%)',
+  width: '100vw',
+});
 
 export const StyledPaper = styled(Paper)({
   padding: '20px',
