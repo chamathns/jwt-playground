@@ -3,9 +3,9 @@ import { TextField } from '@oxygen-ui/react';
 import { StyledPaper } from './AppStyles';
 import { blueGrey } from '@mui/material/colors';
 
-function Encoded({ jwt, handleJwtChange }) {
+function Encoded({ jwt, handleJwtChange, isSignatureValid }) {
         return (
-                <StyledPaper elevation={3}>
+                <StyledPaper elevation={3} sx={{ background: isSignatureValid ? '' : 'rgba(255, 192, 203, 0.5)' }}>
                         <TextField
                                 multiline
                                 minRows={10}

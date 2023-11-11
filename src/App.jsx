@@ -189,14 +189,14 @@ function App() {
                 Encoded
                 {jwt && <span style={{fontSize: '0.6rem', color: 'gray', marginLeft: '6px'}}> PASTE A TOKEN HERE</span>}
               </Typography>
-              <Encoded jwt={jwt} handleJwtChange={handleJwtChange} />
+              <Encoded jwt={jwt} handleJwtChange={handleJwtChange} isSignatureValid={isSignatureValid}/>
               <StyledButton variant="contained" onClick={handleClearClick}>Clear</StyledButton>
             </StyledPaper>
             {jwt && (
             <Typography 
               variant="h5" 
               align="center" 
-              style={{ color: isSignatureValid ? "green" : "red" }}
+              style={{ color: isSignatureValid ? "#1e8e3e" : "red" }}
             >
               {isSignatureValid ? "Signature Verified" : "Invalid Signature"}
             </Typography>
