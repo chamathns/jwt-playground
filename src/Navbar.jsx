@@ -36,7 +36,7 @@ export default function Navbar() {
                 pt: 2, pb: 2, pl: 4, pr: 4,
                 background: 'linear-gradient(to bottom, rgba(167, 194, 204, 1), rgba(250, 240, 230, 0))'
             }}>                */}
-            {/* <Paper elevation={3} sx={{ pt: 2, pb: 4, pl: 4, pr: 4, width: '100%', background: 'transparent', maxWidth: 'hw', textAlign: 'center'}}> */}
+            <div style={{ paddingTop: '2rem', paddingBottom: '0rem', paddingLeft: '4rem', paddingRight: '4rem', width: '100%', background: 'transparent', maxWidth: 'hw', textAlign: 'center' }}>
                     <Typography align="center" variant="h4" sx={{pb: 2, fontFamily: 'Helvetica Neue', fontSize: '2.5rem'}} >
                         JSON Web Tokens
                     </Typography>
@@ -73,7 +73,7 @@ export default function Navbar() {
                             </Typography>
                         </DangerZonePaper>
                     </Box>
-                {/* </Paper> */}
+                </div>
             </Box>
         </ThemeProvider>
     );
