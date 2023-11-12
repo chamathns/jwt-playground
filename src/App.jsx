@@ -231,6 +231,9 @@ function App() {
           </Grid>
         </Grid>
         </BackgroundDiv>
+        <footer style={{ textAlign: 'center', padding: '1rem', paddingTop: '5rem', background: '#f5f5f5' }}>
+          <Typography variant="body2">© 2023 risekite</Typography>
+        </footer>
     </ThemeProvider>
     </>
   );
