@@ -171,7 +171,7 @@ function App() {
     setJwt("");
     setDecodedHeader("");
     setDecodedPayload("");
-    setIsSignatureValid(false);
+    setIsSignatureValid(true);
   };
 
   return (
@@ -190,7 +190,7 @@ function App() {
                 {jwt && <span style={{fontSize: '0.6rem', color: 'gray', marginLeft: '6px'}}> PASTE A TOKEN HERE</span>}
               </Typography>
               <Encoded jwt={jwt} handleJwtChange={handleJwtChange} isSignatureValid={isSignatureValid}/>
-              <StyledButton variant="contained" onClick={handleClearClick}>Clear</StyledButton>
+              <StyledButton variant="contained" onClick={handleClearClick} sx={{ width: '150px' }}>Clear</StyledButton>
             </StyledPaper>
             {jwt && (
             <Typography 

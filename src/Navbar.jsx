@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, Typography } from '@mui/material';
+import { Grid, Paper, Typography } from '@mui/material';
 import { Warning } from '@mui/icons-material';
 import { styled } from '@mui/system';
 
@@ -40,16 +40,21 @@ export default function Navbar() {
                     <Typography variant="subtitle1" gutterBottom sx={{color: '#DDDDDD'}}>
                         JWT playground allows you to decode and encode JWTs
                     </Typography>
-                    <Box sx={{ mt: 4 }}>
-                        <a href="https://dekh.medium.com/the-complete-guide-to-json-web-tokens-jwt-and-token-based-authentication-32501cb5125c" target="_blank" rel="noopener noreferrer">
-                            <Button variant="contained" sx={{ mr: 2 }}>
-                                Learn more about JWT
-                            </Button>
-                        </a>
-                        <Button variant="outlined" color="secondary" sx={{ mr: 2,  }}>
-                            See JWT Libraries
-                        </Button>
+                    <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', width: 'max-content' }}>
+                            <Box sx={{ minWidth: '150px' }}> 
+                                <a href="https://dekh.medium.com/the-complete-guide-to-json-web-tokens-jwt-and-token-based-authentication-32501cb5125c" target="_blank" rel="noopener noreferrer">
+                                    <Button variant="contained" sx={{ width: '200px' }}>Learn more about JWT</Button>
+                                </a>
+                            </Box>
+                            <Box sx={{ minWidth: '150px', ml: 2 }}> 
+                                <Button variant="outlined" color="secondary" sx={{ width: '200px' }}>
+                                    See JWT Libraries
+                                </Button>
+                            </Box>
+                        </div>
                     </Box>
+
                     <Box sx={{ mt: 4, background: 'transparent', alignItems: 'center', display: 'flex', justifyContent: 'center' }}>
                         <DangerZonePaper elevation={0} variant="outlined" className="danger-zone" sx={{ p: 2, background: 'transparent', alignItems: 'center', width: '80%', margin: 'auto' }}>
                             <Typography variant="body2" sx={{mr: 1, verticalAlign: 'bottom', fontFamily: 'Helvetica Neue', color: '#DDDDDD' }}>

@@ -1,4 +1,4 @@
-import { StyledPaper, StyledContainer } from './AppStyles';
+import { StyledPaperInBox, StyledContainer } from './AppStyles';
 import { purple, cyan } from '@mui/material/colors';
 import { Typography, TextField } from "@oxygen-ui/react";
 import VerifySignature from './VerifySignature';
@@ -78,7 +78,7 @@ function Decoded({
         setIsPayloadValid(false);
     }
     return (
-        <StyledPaper elevation={3}>
+        <StyledPaperInBox elevation={3}>
             <StyledContainer>
                 <Typography variant="h6">HEADER: <span style={{fontSize: '0.9rem', color: 'gray'}}>ALGORITHM & TOKEN TYPE</span></Typography>
                 <JSONTextareaHeader value={parsedHeader} onChange={handleHeaderChange} isHeaderValid={isHeaderValid}/>
@@ -100,7 +100,7 @@ function Decoded({
                 }
                 label="secret base64 encoded"
             /> */}
-        </StyledPaper>
+        </StyledPaperInBox>
     );
 }
 

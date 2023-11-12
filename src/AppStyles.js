@@ -14,6 +14,12 @@ export const StyledPaper = styled(Paper)({
   boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
 });
 
+export const StyledPaperInBox = styled(Paper)({
+  padding: '20px',
+  marginBottom: '20px',
+  borderRadius: '10px',
+});
+
 export const StyledTextarea = styled(TextareaAutosize)({
   width: '100%',
   padding: '10px',
