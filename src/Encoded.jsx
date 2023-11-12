@@ -5,21 +5,22 @@ import { blueGrey } from '@mui/material/colors';
 
 function Encoded({ jwt, handleJwtChange, isSignatureValid }) {
         return (
-                <StyledPaperInBox elevation={3} sx={{ background: isSignatureValid ? '' : 'rgba(255, 192, 203, 0.5)' }}>
+                // <StyledPaperInBox elevation={3} >
                         <TextField
                                 multiline
                                 minRows={10}
                                 value={jwt}
                                 onChange={handleJwtChange}
                                 placeholder="Paste a token here..."
-                                variant="standard"
+                                variant="outlined"
                                 fullWidth
                                 InputProps={{
                                         disableUnderline: true,
-                                        style: { color: blueGrey[700], fontFamily: 'Menlo' },
+                                        style: { color: blueGrey[700], fontFamily: 'Menlo', padding: '10px' },
                                 }}
+                                sx={{ p: 0, borderRadius: 1, background: isSignatureValid ? '' : 'rgba(255, 192, 203, 0.5)' }}
                         />
-                </StyledPaperInBox>
+                // </StyledPaperInBox>
         );
 }
 

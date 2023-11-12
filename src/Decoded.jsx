@@ -78,14 +78,14 @@ function Decoded({
         setIsPayloadValid(false);
     }
     return (
-        <StyledPaperInBox elevation={3}>
+        <div style={{ padding: '1rem' }}>
             <StyledContainer>
-                <Typography variant="h6">HEADER: <span style={{fontSize: '0.9rem', color: 'gray'}}>ALGORITHM & TOKEN TYPE</span></Typography>
+                <Typography variant="h6" style={{ marginBottom: '10px' }}>HEADER: <span style={{fontSize: '0.9rem', color: 'gray'}}>ALGORITHM & TOKEN TYPE</span></Typography>
                 <JSONTextareaHeader value={parsedHeader} onChange={handleHeaderChange} isHeaderValid={isHeaderValid}/>
             </StyledContainer>
 
             <StyledContainer>
-                <Typography variant="h6">PAYLOAD: <span style={{fontSize: '0.9rem', color: 'gray'}}>DATA</span></Typography>
+                <Typography variant="h6" style={{ marginBottom: '10px' }}>PAYLOAD: <span style={{fontSize: '0.9rem', color: 'gray'}}>DATA</span></Typography>
                 <JSONTextareaPayload value={parsedPayload} onChange={handlePayloadChange} isPayloadValid={isPayloadValid} />
             </StyledContainer>
 
@@ -100,7 +100,7 @@ function Decoded({
                 }
                 label="secret base64 encoded"
             /> */}
-        </StyledPaperInBox>
+        </div>
     );
 }
 
